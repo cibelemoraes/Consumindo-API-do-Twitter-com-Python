@@ -1,21 +1,28 @@
 import tweepy
+import uvicorn
 
-# Importando as chaves de acesso do arquivo secrets
-from secrets import ACCESS_TOKEN, ACCESS_TOKEN_SECRET, CONSUMER_KEY, CONSUMER_SECRET
+from fastapi import FastAPI
 
-# Configurando a autenticação
-auth = tweepy.OAuthHandler(consumer_key=CONSUMER_KEY, consumer_secret=CONSUMER_SECRET)
-auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+from src.services import get_trends
 
-# Criando uma instância da API
-api = tweepy.API(auth)
-# WOEID do Brasil (esse parâmetro pode não ser necessário na API v2)
+from pydantic import BaseModel
+
+class TrendItem(BaseModel):
+   name:str
+   url:str
+
 BRAZIL_WOE_ID = 23424768
+      
+app = FastAPI()
 
-# Obtendo as tendências (verifique o endpoint correto para a API v2)
-try:
-    trends = api.get_place_trends(BRAZIL_WOE_ID)
-    print(trends)
-except tweepy.TweepyException as e:
-    print(f"Error: {e}")
+@app.get("/trends", response_model=List[TrendItem])
+def get_trends_route():
+   
+   trends = get_trends(woe_id=BRAZIL_WOE_ID)
+   
+   return trends
+
+if __name__ == "__main__":
+   uvicorn.run(app,host="0.0.0.0", port=8000)
+   
 

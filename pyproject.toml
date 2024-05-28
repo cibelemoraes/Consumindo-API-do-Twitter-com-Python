@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "mongo-teste"
+version = "1.0.0"
+description = "teste"
+authors = ["Cibele Domingos <cibeledaniel863@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.12.3"
+uvicorn = "^0.30.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
