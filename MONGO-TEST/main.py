@@ -4,6 +4,7 @@ from typing import Any, Dict, List
 from fastapi import FastAPI
 
 from src.services import get_trends
+from src.services import TrendItem
 
 from pydantic import BaseModel
 
@@ -18,9 +19,7 @@ tweets_collection = db.tweets
 
 print(list(tweets))
 
-class TrendItem(BaseModel):
-   name:str
-   url:str
+
 
 BRAZIL_WOE_ID = 23424768
       
