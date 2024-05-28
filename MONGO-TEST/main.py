@@ -4,40 +4,26 @@ from typing import Any, Dict, List
 from fastapi import FastAPI
 
 from src.services import get_trends
-from src.services import TrendItem
+from src.services import TrendItem, get_trends_from_mongo, save_trends
 
 from pydantic import BaseModel
 
 from pymongo import MongoClient
 
-cliente = MongoClient("mongodb://dio:dio@localhost:27017/")
-#criando documento no pymongo
-db = client.my_test
-
-tweets_collection = db.tweets
 
 
 print(list(tweets))
 
-
-
-BRAZIL_WOE_ID = 23424768
       
 app = FastAPI()
 
 @app.get("/trends", response_model=List[TrendItem])
 def get_trends_route():
-   
-   trends = tweets_collection.find({})
-   
-   return trends[0]["trends"]
+    return get_trends_from_mongo
 
 if __name__ == "__main__":
-   
-   trends = get_trends(woe_id=BRAZIL_WOE_ID)
-   
-   tweets_collection.insert_many(trends)
-   
+   save_trends()
+
    uvicorn.run(app,host="0.0.0.0", port=8000)
    
 

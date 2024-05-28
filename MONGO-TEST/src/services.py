@@ -1,10 +1,18 @@
 from typing import Any, Dict, List
-
 import tweepy
-
 from src.secrets import ACCESS_TOKEN, ACCESS_TOKEN_SECRET, CONSUMER_KEY, CONSUMER_SECRET
+from src.constants import BRAZIL_WOE_ID
+from src.constants trends_collection
 
-def get_trends(woe_id: int)-> List[Dict[str, Any]]:
+
+
+def _get_trends(woe_id: int)-> List[Dict[str, Any]]:
+    """ Get treending topics.
+    Args:
+    woe_id (int): Identifier of location.
+    Return:
+    List[Dict[str, Any]]: Trends list."""
+    
    # Configurando a autenticação
    auth = tweepy.OAuthHandler(consumer_key=CONSUMER_KEY, consumer_secret=CONSUMER_SECRET)
    auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
@@ -20,3 +28,13 @@ def get_trends(woe_id: int)-> List[Dict[str, Any]]:
       print(trends)
    except tweepy.TweepyException as e:
       print(f"Error: {e}")
+      
+def get_trends_from_mongo()-> List[Dict[str, Any]]:
+    trends = trends_collection.find({})
+    return list(trends)
+
+def save_trends()-> None:
+    
+   trends = _get_trends(woe_id=BRAZIL_WOE_ID)
+   trends_collection.insert_many(trends)
+   
