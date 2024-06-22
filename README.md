@@ -32,10 +32,8 @@ Instale o [Docker](https://www.docker.com) e [Docker compose](https://docs.docke
 
 ## Rodando a aplicação 🛸
 
-```sh
 poetry shell
 python main.py
-
 
 ## Rodando os testes 
 
@@ -52,3 +50,4 @@ Push para a branch (git push origin feature/AmazingFeature).
 Abra um Pull Request.
 
 Relatorio desenvolvido por Cibele Gomes Domingos Moraes Lima
+
